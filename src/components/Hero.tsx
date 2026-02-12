@@ -121,7 +121,7 @@ export default function Hero({ onNavigate }: HeroProps) {
         <div className="hero-image-wrapper" ref={imageRef}>
           <div className="hero-image">
             <img
-              src="/mine.jpg"
+              src="mine.jpg"
               alt="七叔 - 歌手照片"
             />
             <div className="image-overlay"></div>
