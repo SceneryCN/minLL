@@ -12,21 +12,22 @@ export default function MusicPlayer() {
 
   useEffect(() => {
     // 创建音频元素
-    audioRef.current = new Audio('/background_music.mp3');
+    audioRef.current = new Audio('background_music.mp3');
     audioRef.current.loop = true;
     audioRef.current.volume = volume;
 
-    return () => {
-      const autoPlay = async () => {
-        try {
-          await audioRef.current?.play();
-          setIsPlaying(true);
-        } catch (error) {
-          console.log('自动播放失败，等待用户交互:', error);
-        }
-      };
+    const autoPlay = async () => {
+      try {
+        await audioRef.current?.play();
+        setIsPlaying(true);
+      } catch (error) {
+        console.log('自动播放失败，等待用户交互:', error);
+      }
+    };
 
-      autoPlay();
+    autoPlay();
+
+    return () => {
       // 清理音频元素
       if (audioRef.current) {
         audioRef.current.pause();
