@@ -1,0 +1,361 @@
+@import './variables.css';
+
+/* 浮动音乐播放器 */
+.music-player {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  z-index: 9999;
+  transition: all var(--duration-slow) var(--ease-smooth);
+  width: 68px;
+  height: 68px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* 点击展开状态 */
+.music-player.expanded {
+  width: 290px;
+  padding: 12px 16px;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+/* 唱片样式 */
+.vinyl {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #2a2a2a, #0d0d0d);
+  position: relative;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+/* 唱片凹槽效果 */
+.vinyl::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at center,
+    #333 0px,
+    #333 0.5px,
+    #1a1a1a 0.5px,
+    #1a1a1a 2px
+  );
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+
+/* 唱片中心标签 */
+.vinyl-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* 唱片中心标签细节 */
+.vinyl-center::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 唱片反光效果和细节 */
+.vinyl::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background-image: 
+    /* 主反光 */
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3), transparent 60%),
+    /* 边缘高光 */
+    repeating-radial-gradient(
+      circle at center,
+      transparent 0%,
+      transparent calc(100% - 2px),
+      rgba(255, 255, 255, 0.1) calc(100% - 2px),
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    /* 细微划痕和颗粒感 */
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.02) 50%, transparent 51%),
+    linear-gradient(135deg, transparent 49%, rgba(255, 255, 255, 0.01) 50%, transparent 51%);
+  background-size: 
+    100% 100%,
+    100% 100%,
+    20px 20px,
+    15px 15px,
+    25px 25px,
+    30px 30px,
+    35px 35px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 唱片旋转动画 */
+.vinyl.spinning {
+  animation: spin 2s linear infinite;
+}
+
+/* 增加旋转动画的视觉效果 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 播放器控制 */
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  transition: all var(--duration-slow) var(--ease-smooth);
+}
+
+/* 展开时显示播放器控制 */
+.music-player.expanded .player-controls {
+  opacity: 1;
+  width: auto;
+  overflow: visible;
+}
+
+/* 播放/暂停按钮 */
+.music-player .play-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  flex-shrink: 0;
+}
+
+.music-player .play-btn:hover {
+  background: var(--primary-dark);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-primary);
+}
+
+/* 音量控制 */
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* 静音按钮 */
+.mute-btn {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color var(--duration-normal) var(--ease-smooth);
+  flex-shrink: 0;
+}
+
+.mute-btn:hover {
+  color: var(--primary-color);
+}
+
+/* 音量滑块 */
+.volume-slider {
+  width: 80px;
+  height: 4px;
+  background: var(--bg-light);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  flex-shrink: 0;
+}
+
+.volume-slider:hover {
+  background: var(--border-color);
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: var(--shadow-primary);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.volume-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: var(--shadow-primary);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .music-player {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    gap: 0;
+    width: 60px;
+    height: 60px;
+  }
+
+  .music-player.expanded {
+    width: 280px;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 16px;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+
+  .vinyl {
+    width: 40px;
+    height: 40px;
+  }
+
+  .music-player .play-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .volume-slider {
+    width: 60px;
+  }
+
+  .player-controls {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .music-player {
+    bottom: 16px;
+    right: 16px;
+    padding: 8px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .music-player.expanded {
+    width: calc(100vw - 32px);
+    bottom: 16px;
+    left: 16px;
+    right: auto;
+    padding: 8px 12px;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
+  .vinyl {
+    width: 40px;
+    height: 40px;
+  }
+
+  .volume-control {
+    flex-shrink: 1;
+  }
+
+  .volume-slider {
+    flex-grow: 1;
+    min-width: 40px;
+    width: auto;
+  }
+}
+
+
+
+/* 动画效果 */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.music-player {
+  animation: slideInUp 0.5s var(--ease-expo-out) forwards;
+}
+
+/* 滚动时的样式变化 */
+@media (min-width: 769px) {
+  .music-player {
+    transition: all var(--duration-normal) var(--ease-smooth);
+  }
+
+  /* 可以根据需要添加滚动时的样式变化 */
+}
