@@ -84,7 +84,6 @@ export default function Hero() {
 							/>
 						</div>
 					</div>
-					{/* <div className="decoration-circle" aria-hidden /> */}
 				</div>
 			</div>
 
