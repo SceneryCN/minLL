@@ -1,47 +1,53 @@
-import { useState } from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import MusicPlayer from '@/components/MusicPlayer';
-import Home from '@/pages/Home';
-import LearnedSongs from '@/pages/LearnedSongs';
-import LearningSongs from '@/pages/LearningSongs';
-import Notes from '@/pages/Notes';
-import WebLLM from '@/pages/WebLLM';
-import '@/styles/variables.css';
-import '@/styles/global.css';
-
-export type Page = 'home' | 'learned' | 'learning' | 'notes' | 'llm';
+import { useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Home from "@/pages/Home";
+import "@/styles/global.css";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+	useEffect(() => {
+		const root = document.documentElement;
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <Home onNavigate={setCurrentPage} />;
-      case 'learned':
-        return <LearnedSongs />;
-      case 'learning':
-        return <LearningSongs />;
-      case 'notes':
-        return <Notes />;
-      case 'llm':
-        return <WebLLM />;
-      default:
-        return <Home onNavigate={setCurrentPage} />;
-    }
-  };
+		const setSpotlight = (clientX: number, clientY: number) => {
+			root.style.setProperty("--spot-x", `${clientX}px`);
+			root.style.setProperty("--spot-y", `${clientY}px`);
+		};
 
-  return (
-    <div className="app">
-      <Navbar currentPage={currentPage} onNavigate={setCurrentPage} />
-      <main className="main-content">
-        {renderPage()}
-      </main>
-      <Footer onNavigate={setCurrentPage} />
-      <MusicPlayer />
-    </div>
-  );
+		const center = () =>
+			setSpotlight(window.innerWidth / 2, window.innerHeight / 2);
+
+		const onMouseMove = (e: MouseEvent) =>
+			setSpotlight(e.clientX, e.clientY);
+
+		const onTouch = (e: TouchEvent) => {
+			const t = e.touches[0];
+			if (t) setSpotlight(t.clientX, t.clientY);
+		};
+
+		center();
+		window.addEventListener("mousemove", onMouseMove);
+		window.addEventListener("touchstart", onTouch, { passive: true });
+		window.addEventListener("touchmove", onTouch, { passive: true });
+		window.addEventListener("resize", center);
+
+		return () => {
+			window.removeEventListener("mousemove", onMouseMove);
+			window.removeEventListener("touchstart", onTouch);
+			window.removeEventListener("touchmove", onTouch);
+			window.removeEventListener("resize", center);
+		};
+	}, []);
+
+	return (
+		<div className="app">
+			<div className="site-bg" aria-hidden>
+				<div className="site-bg-spotlight" />
+			</div>
+			<Navbar />
+			<main className="main-content">
+				<Home />
+			</main>
+		</div>
+	);
 }
 
 export default App;

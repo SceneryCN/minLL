@@ -70,9 +70,6 @@
     @apply border-border;
   }
   html {
-    background-color: hsl(var(--bg-light));
-  }
-  body {
-    @apply bg-background text-foreground;
+    background-color: var(--bg-light);
   }
 }
