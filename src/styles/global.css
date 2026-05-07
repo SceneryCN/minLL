@@ -165,24 +165,124 @@ ol {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 1;
   background:
     radial-gradient(
-      ellipse min(42vw, 340px) min(38vw, 300px) at var(--spot-x) var(--spot-y),
-      rgba(255, 248, 230, 0.07) 0%,
-      transparent 62%
+      ellipse min(48vw, 400px) min(42vw, 360px) at var(--spot-x) var(--spot-y),
+      rgba(255, 248, 230, 0.11) 0%,
+      transparent 58%
     ),
     radial-gradient(
       circle min(82vw, 780px) at var(--spot-x) var(--spot-y),
       transparent 0%,
-      transparent 18%,
-      rgba(4, 2, 10, 0.52) 52%,
-      rgba(2, 1, 6, 0.92) 100%
+      transparent 16%,
+      rgba(4, 2, 10, 0.48) 48%,
+      rgba(2, 1, 6, 0.94) 100%
     );
+}
+
+.site-bg-spotlight--flare {
+  z-index: 0;
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  background: radial-gradient(
+    circle min(28vw, 220px) at var(--spot-x) var(--spot-y),
+    rgba(248, 232, 188, 0.22) 0%,
+    rgba(212, 175, 55, 0.08) 38%,
+    transparent 62%
+  );
+}
+
+.site-bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(92px);
+  mix-blend-mode: screen;
+  opacity: 0.38;
+  will-change: transform;
+}
+
+.site-bg-blob--a {
+  width: min(92vw, 820px);
+  height: min(92vw, 820px);
+  left: -18%;
+  top: 8%;
+  background: radial-gradient(
+    circle,
+    rgba(125, 90, 130, 0.55) 0%,
+    rgba(199, 123, 134, 0.22) 45%,
+    transparent 70%
+  );
+}
+
+.site-bg-blob--b {
+  width: min(88vw, 760px);
+  height: min(88vw, 760px);
+  right: -22%;
+  bottom: -8%;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.35) 0%,
+    rgba(248, 232, 188, 0.12) 42%,
+    transparent 68%
+  );
+}
+
+.site-bg-blob--c {
+  width: min(70vw, 560px);
+  height: min(70vw, 560px);
+  left: 28%;
+  bottom: 12%;
+  background: radial-gradient(
+    circle,
+    rgba(199, 123, 134, 0.42) 0%,
+    rgba(125, 90, 130, 0.2) 50%,
+    transparent 72%
+  );
+}
+
+.site-bg-noise-flicker {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.06;
+  background-image: repeating-linear-gradient(
+    -12deg,
+    transparent,
+    transparent 2px,
+    rgba(248, 232, 188, 0.04) 2px,
+    rgba(248, 232, 188, 0.04) 3px
+  );
+}
+
+.cursor-aura {
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.2) 0%,
+    rgba(199, 123, 134, 0.1) 32%,
+    transparent 68%
+  );
+  filter: blur(1px);
+  mix-blend-mode: screen;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .site-bg-spotlight {
     background: rgba(3, 2, 8, 0.62);
+  }
+
+  .site-bg-spotlight--flare {
+    opacity: 0;
+  }
+
+  .site-bg-noise-flicker {
+    opacity: 0;
   }
 }
 

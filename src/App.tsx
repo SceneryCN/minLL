@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import CursorAura from "@/components/CursorAura";
+import SiteBgMotion from "@/components/SiteBgMotion";
 import Navbar from "@/components/Navbar";
 import Home from "@/pages/Home";
 import "@/styles/global.css";
@@ -15,12 +17,22 @@ function App() {
 		const center = () =>
 			setSpotlight(window.innerWidth / 2, window.innerHeight / 2);
 
-		const onMouseMove = (e: MouseEvent) =>
-			setSpotlight(e.clientX, e.clientY);
+		let raf = 0;
+		const onMouseMove = (e: MouseEvent) => {
+			cancelAnimationFrame(raf);
+			raf = requestAnimationFrame(() =>
+				setSpotlight(e.clientX, e.clientY),
+			);
+		};
 
 		const onTouch = (e: TouchEvent) => {
 			const t = e.touches[0];
-			if (t) setSpotlight(t.clientX, t.clientY);
+			if (t) {
+				cancelAnimationFrame(raf);
+				raf = requestAnimationFrame(() =>
+					setSpotlight(t.clientX, t.clientY),
+				);
+			}
 		};
 
 		center();
@@ -30,6 +42,7 @@ function App() {
 		window.addEventListener("resize", center);
 
 		return () => {
+			cancelAnimationFrame(raf);
 			window.removeEventListener("mousemove", onMouseMove);
 			window.removeEventListener("touchstart", onTouch);
 			window.removeEventListener("touchmove", onTouch);
@@ -40,8 +53,11 @@ function App() {
 	return (
 		<div className="app">
 			<div className="site-bg" aria-hidden>
+				<SiteBgMotion />
 				<div className="site-bg-spotlight" />
+				<div className="site-bg-spotlight site-bg-spotlight--flare" />
 			</div>
+			<CursorAura />
 			<Navbar />
 			<main className="main-content">
 				<Home />
