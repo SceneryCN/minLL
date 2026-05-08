@@ -409,9 +409,12 @@
 }
 
 .hero-visual-frame--logo {
+	display: block;
 	width: fit-content;
 	max-width: min(92vw, 440px);
+	height: auto;
 	padding: 2px;
+	line-height: 0;
 	border-radius: var(--radius-lg);
 	box-shadow:
 		var(--shadow-lg),
@@ -441,6 +444,8 @@
 	aspect-ratio: auto;
 	width: fit-content;
 	max-width: 100%;
+	height: auto;
+	min-height: 0;
 	padding: 0;
 	overflow: hidden;
 	border-radius: calc(var(--radius-lg) - 2px);
@@ -455,7 +460,7 @@
 	display: block;
 	width: auto;
 	height: auto;
-	max-width: min(88vw, 400px);
+	max-width: min(calc(92vw - 8px), 400px);
 	max-height: min(72vh, 560px);
 	object-fit: contain;
 	border-radius: calc(var(--radius-lg) - 4px);

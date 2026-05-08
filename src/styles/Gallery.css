@@ -304,28 +304,24 @@
 	transition: box-shadow 0.55s var(--ease-smooth);
 }
 
-/* 全身照：边框宽度贴合图片 */
-.photo-grid--fullbody .photo-frame {
-	width: fit-content;
-	margin: 0 auto;
-}
-
-/* 全身照统一容器尺寸 */
+/* 全身照：外框随图片固有尺寸收缩（移动端 / PC 一致） */
 .photo-grid--fullbody .photo-card .photo-frame {
-	width: 230px;
-	height: 412px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	object-fit: cover;
+	width: fit-content;
+	max-width: min(300px, min(94vw, 100%));
+	height: auto;
+	min-height: 0;
+	margin: 0 auto;
+	display: block;
 	overflow: hidden;
 }
 
-@media (max-width: 768px) {
-	.photo-grid--fullbody .photo-card .photo-frame {
-		width: 200px;
-		height: 400px;
-	}
+.photo-grid--fullbody .photo-img {
+	display: block;
+	width: auto;
+	height: auto;
+	max-width: min(292px, calc(94vw - 16px));
+	max-height: min(76vh, 720px);
+	object-fit: contain;
 }
 
 .photo-card:hover .photo-frame {
@@ -344,13 +340,6 @@
 	display: block;
 	transition: filter 0.7s var(--ease-smooth);
 	filter: brightness(0.92) contrast(1.02);
-}
-
-/* 全身照：在固定容器内等比缩放，完整展示 */
-.photo-grid--fullbody .photo-img {
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
 }
 
 .photo-card:hover .photo-img {
