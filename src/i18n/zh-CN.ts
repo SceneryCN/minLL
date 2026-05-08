@@ -13,10 +13,11 @@ export const zhCN = {
 		scrollHint: "深入",
 	},
 	gallery: {
+		sectionAria: "馆藏影像",
 		throneTitle: "觐见",
-		throneDesc: "他们在暗处落座，荆棘为冠，沉默为权。如果你够胆，就再靠近一点。",
+		throneDesc: "",
 		fullbodyTitle: "轮廓",
-		fullbodyDesc: "从王座起身，走入你面前这片暗红。别移开视线——此刻，你看得很清楚。",
+		fullbodyDesc: "",
 		labels: {
 			fusheng: "ℋ.浮生",
 			qishu: "ℋ.七叔",

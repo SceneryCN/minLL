@@ -181,3 +181,95 @@ export function h1BlockVariants(reducedMotion: boolean): Variants {
 		},
 	};
 }
+
+/** Photo grid stagger */
+export function galleryGridVariants(reducedMotion: boolean): Variants {
+	return {
+		hidden: {},
+		visible: {
+			transition: {
+				staggerChildren: reducedMotion ? 0 : 0.14,
+				delayChildren: reducedMotion ? 0 : 0.08,
+			},
+		},
+	};
+}
+
+/** Gallery cards — deep spring + blur */
+export function seductivePhotoVariants(reducedMotion: boolean): Variants {
+	return {
+		hidden: reducedMotion
+			? { opacity: 1, y: 0, rotateX: 0, scale: 1, filter: "blur(0px)" }
+			: {
+					opacity: 0,
+					y: 68,
+					rotateX: -16,
+					scale: 0.9,
+					filter: "blur(12px)",
+				},
+		visible: {
+			opacity: 1,
+			y: 0,
+			rotateX: 0,
+			scale: 1,
+			filter: "blur(0px)",
+			transition: reducedMotion
+				? { duration: 0 }
+				: ({
+						type: "spring",
+						stiffness: 72,
+						damping: 13,
+						mass: 1.05,
+					} satisfies Transition),
+		},
+	};
+}
+
+/** Gallery section title block */
+export function galleryHeaderVariants(reducedMotion: boolean): Variants {
+	return {
+		hidden: {},
+		visible: {
+			transition: {
+				staggerChildren: reducedMotion ? 0 : 0.12,
+				delayChildren: reducedMotion ? 0 : 0.06,
+			},
+		},
+	};
+}
+
+export function galleryHeaderItemVariants(reducedMotion: boolean): Variants {
+	return cinematicRevealVariants(reducedMotion, 13, 36);
+}
+
+/** Footer orchestration */
+export function footerRevealVariants(reducedMotion: boolean): Variants {
+	return {
+		hidden: {},
+		visible: {
+			transition: {
+				staggerChildren: reducedMotion ? 0 : 0.16,
+				delayChildren: reducedMotion ? 0 : 0.14,
+			},
+		},
+	};
+}
+
+export function footerItemVariants(reducedMotion: boolean): Variants {
+	return cinematicRevealVariants(reducedMotion, 12, 34);
+}
+
+export function footerDividerVariants(reducedMotion: boolean): Variants {
+	return {
+		hidden: reducedMotion
+			? { scaleX: 1, opacity: 1 }
+			: { scaleX: 0, opacity: 0 },
+		visible: {
+			scaleX: 1,
+			opacity: 1,
+			transition: reducedMotion
+				? { duration: 0 }
+				: { duration: 1.05, ease: easeOutExpo },
+		},
+	};
+}

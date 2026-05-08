@@ -4,7 +4,68 @@
 .gallery {
 	position: relative;
 	z-index: 1;
+	overflow: hidden;
 	padding: 96px 40px 64px;
+	background:
+		radial-gradient(
+			ellipse 120% 80% at 50% -20%,
+			rgba(125, 90, 130, 0.18),
+			transparent 52%
+		),
+		radial-gradient(
+			ellipse 70% 50% at 100% 60%,
+			rgba(212, 175, 55, 0.06),
+			transparent 48%
+		),
+		linear-gradient(180deg, rgba(5, 4, 10, 0.96) 0%, #0a0814 38%, #0c0a16 100%);
+	border-top: 1px solid rgba(212, 175, 55, 0.08);
+}
+
+.gallery-atmosphere {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	overflow: hidden;
+}
+
+.gallery-fog {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(100px);
+	will-change: transform, opacity;
+}
+
+.gallery-fog--a {
+	width: min(92vw, 820px);
+	height: min(92vw, 820px);
+	left: -18%;
+	top: 8%;
+	background: radial-gradient(
+		circle,
+		rgba(125, 90, 130, 0.42),
+		rgba(88, 52, 82, 0.12) 52%,
+		transparent 72%
+	);
+}
+
+.gallery-fog--b {
+	width: min(88vw, 720px);
+	height: min(88vw, 720px);
+	right: -14%;
+	bottom: 12%;
+	background: radial-gradient(
+		circle,
+		rgba(212, 175, 55, 0.14),
+		rgba(199, 123, 134, 0.08) 45%,
+		transparent 68%
+	);
+}
+
+.gallery > .gallery-section,
+.gallery > .gallery-divider {
+	position: relative;
+	z-index: 1;
 }
 
 @media (max-width: 768px) {
@@ -75,19 +136,80 @@
 	margin: 0 auto;
 }
 
+.gallery-section-title-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(10px, 2vw, 18px);
+	margin-bottom: 14px;
+}
+
+.gallery-section-title-row .gallery-section-title {
+	margin-bottom: 0;
+	background: linear-gradient(
+		115deg,
+		var(--text-primary) 0%,
+		rgba(248, 232, 188, 0.95) 42%,
+		var(--text-primary) 78%
+	);
+	background-size: 200% auto;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: galleryTitleSheen 11s ease-in-out infinite;
+}
+
+@keyframes galleryTitleSheen {
+	0%,
+	100% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.gallery-section-title-row .gallery-section-title {
+		animation: none;
+		color: var(--text-primary);
+		background: none;
+		-webkit-background-clip: unset;
+		background-clip: unset;
+	}
+}
+
+.gallery-section-kicker {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--primary-color);
+	opacity: 0.72;
+	filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
+}
+
+.gallery-section-kicker--trail {
+	transform: scaleX(-1);
+}
+
 /* ── 分隔线 ── */
 .gallery-divider {
-	max-width: 200px;
+	max-width: min(320px, 72vw);
 	height: 1px;
 	margin: 80px auto;
+	transform-origin: center;
 	background: linear-gradient(
 		90deg,
 		transparent,
-		var(--border-color),
+		rgba(212, 175, 55, 0.08),
 		var(--border-strong),
-		var(--border-color),
+		rgba(199, 123, 134, 0.42),
+		var(--border-strong),
+		rgba(212, 175, 55, 0.08),
 		transparent
 	);
+	box-shadow: 0 0 24px rgba(212, 175, 55, 0.12);
 }
 
 @media (max-width: 768px) {
@@ -136,6 +258,27 @@
 	position: relative;
 }
 
+.photo-tilt-shell {
+	perspective: 1400px;
+	perspective-origin: 50% 42%;
+}
+
+.photo-tilt-inner {
+	transform-style: preserve-3d;
+	will-change: transform;
+}
+
+.photo-frame-wrap {
+	position: relative;
+	width: 100%;
+	border-radius: var(--radius-lg);
+}
+
+.photo-grid--fullbody .photo-frame-wrap {
+	width: fit-content;
+	margin: 0 auto;
+}
+
 /* 全身照区域：卡片宽度贴合图片本身 */
 .photo-grid--fullbody .photo-card {
 	flex: 0 0 auto;
@@ -145,6 +288,7 @@
 .photo-frame {
 	position: relative;
 	overflow: hidden;
+	transform: translateZ(0);
 	border-radius: var(--radius-lg);
 	background: linear-gradient(
 		145deg,
@@ -238,6 +382,44 @@
 	50% {
 		background-position: -200% 0;
 	}
+}
+
+.photo-shimmer--motion {
+	mix-blend-mode: soft-light;
+	opacity: 0.72;
+	background: linear-gradient(
+		105deg,
+		transparent 38%,
+		rgba(248, 232, 188, 0.14) 50%,
+		transparent 62%
+	);
+	background-size: 220% 100%;
+}
+
+.photo-vignette-cap {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	border-radius: inherit;
+	background: radial-gradient(
+		ellipse 88% 78% at 50% 52%,
+		transparent 38%,
+		rgba(6, 4, 12, 0.42) 88%,
+		rgba(3, 2, 6, 0.72) 100%
+	);
+}
+
+.photo-border-glow {
+	position: absolute;
+	inset: -5px;
+	z-index: 5;
+	pointer-events: none;
+	border-radius: calc(var(--radius-lg) + 5px);
+	box-shadow:
+		0 0 0 1px rgba(212, 175, 55, 0.28),
+		0 0 38px rgba(212, 175, 55, 0.22),
+		0 0 72px rgba(125, 90, 130, 0.18);
 }
 
 /* ── 照片标签 ── */

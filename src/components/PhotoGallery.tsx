@@ -1,63 +1,17 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { Crown, User } from "lucide-react";
-import { t } from "@/i18n";
+import { Crown, Sparkles, User } from "lucide-react";
+import GalleryPhotoCard from "@/components/GalleryPhotoCard";
 import { THRONE_PHOTOS, FULLBODY_PHOTOS } from "@/constants/assets";
+import { t } from "@/i18n";
 import {
-	contentStaggerVariants,
-	fadeUpItemVariants,
+	footerDividerVariants,
+	galleryGridVariants,
+	galleryHeaderItemVariants,
+	galleryHeaderVariants,
+	seductivePhotoVariants,
 } from "@/utils/motion-page";
 import "@/styles/Gallery.css";
 
-/* ── 照片卡片 ── */
-function PhotoCard({
-	src,
-	label,
-	index,
-	reducedMotion,
-}: {
-	src: string;
-	label: string;
-	index: number;
-	reducedMotion: boolean;
-}) {
-	const item = fadeUpItemVariants(reducedMotion);
-
-	return (
-		<motion.div
-			className="photo-card"
-			variants={item}
-			whileHover={
-				reducedMotion
-					? undefined
-					: {
-						y: -8,
-						scale: 1.02,
-						transition: { type: "spring", stiffness: 320, damping: 22 },
-					}
-			}
-			style={{ transitionDelay: `${index * 80}ms` }}
-		>
-			<div className="photo-frame">
-				<img
-					src={src}
-					alt={label}
-					loading="lazy"
-					decoding="async"
-					className="photo-img"
-				/>
-				{!reducedMotion && <div className="photo-shimmer" aria-hidden />}
-			</div>
-			<div className="photo-caption">
-				<span className="photo-caption-line" aria-hidden />
-				<span className="photo-caption-text">
-					{t(`gallery.labels.${label}`)}
-				</span>
-			</div>
-		</motion.div>
-	);
-}
-
-/* ── 区块标题 ── */
 function SectionHeader({
 	icon: Icon,
 	titleKey,
@@ -69,21 +23,66 @@ function SectionHeader({
 	descKey: string;
 	reducedMotion: boolean;
 }) {
-	const item = fadeUpItemVariants(reducedMotion);
+	const header = galleryHeaderVariants(reducedMotion);
+	const item = galleryHeaderItemVariants(reducedMotion);
+
 	return (
 		<motion.div
 			className="gallery-section-header"
-			variants={contentStaggerVariants(reducedMotion)}
+			variants={header}
 			initial="hidden"
 			whileInView="visible"
-			viewport={{ once: true, margin: "-80px" }}
+			viewport={{ once: true, margin: "-72px" }}
 		>
-			<motion.span className="gallery-section-icon" variants={item}>
-				<Icon size={18} />
+			<motion.span
+				className="gallery-section-icon"
+				variants={item}
+				whileHover={
+					reducedMotion
+						? undefined
+						: {
+								rotate: [0, -8, 8, 0],
+								scale: 1.06,
+								transition: { duration: 0.55 },
+							}
+				}
+			>
+				<Icon size={18} strokeWidth={1.75} />
 			</motion.span>
-			<motion.h2 className="gallery-section-title" variants={item}>
-				{t(titleKey)}
-			</motion.h2>
+			<motion.div className="gallery-section-title-row" variants={item}>
+				<motion.span
+					className="gallery-section-kicker"
+					animate={
+						reducedMotion
+							? undefined
+							: { opacity: [0.5, 1, 0.5] }
+					}
+					transition={{
+						duration: 5,
+						repeat: Number.POSITIVE_INFINITY,
+						ease: "easeInOut",
+					}}
+				>
+					<Sparkles size={12} aria-hidden />
+				</motion.span>
+				<h2 className="gallery-section-title">{t(titleKey)}</h2>
+				<motion.span
+					className="gallery-section-kicker gallery-section-kicker--trail"
+					animate={
+						reducedMotion
+							? undefined
+							: { opacity: [0.5, 1, 0.5] }
+					}
+					transition={{
+						duration: 5,
+						repeat: Number.POSITIVE_INFINITY,
+						ease: "easeInOut",
+						delay: 0.6,
+					}}
+				>
+					<Sparkles size={12} aria-hidden />
+				</motion.span>
+			</motion.div>
 			<motion.p className="gallery-section-desc" variants={item}>
 				{t(descKey)}
 			</motion.p>
@@ -91,15 +90,46 @@ function SectionHeader({
 	);
 }
 
-/* ── 主组件 ── */
 export default function PhotoGallery() {
 	const reducedMotion = useReducedMotion() ?? false;
-	const content = contentStaggerVariants(reducedMotion);
+	const grid = galleryGridVariants(reducedMotion);
+	const photoV = seductivePhotoVariants(reducedMotion);
+	const rail = footerDividerVariants(reducedMotion);
 
 	return (
-		<section className="gallery" aria-label="照片展示">
-			{/* ── 王座照 ── */}
-			<div className="gallery-section">
+		<section className="gallery" id="gallery" aria-label={t("gallery.sectionAria")}>
+			<div className="gallery-atmosphere" aria-hidden>
+				{!reducedMotion && (
+					<>
+						<motion.span
+							className="gallery-fog gallery-fog--a"
+							animate={{
+								opacity: [0.22, 0.42, 0.22],
+								scale: [1, 1.06, 1],
+							}}
+							transition={{
+								duration: 14,
+								repeat: Number.POSITIVE_INFINITY,
+								ease: "easeInOut",
+							}}
+						/>
+						<motion.span
+							className="gallery-fog gallery-fog--b"
+							animate={{
+								opacity: [0.18, 0.38, 0.18],
+								scale: [1.04, 1, 1.04],
+							}}
+							transition={{
+								duration: 18,
+								repeat: Number.POSITIVE_INFINITY,
+								ease: "easeInOut",
+							}}
+						/>
+					</>
+				)}
+			</div>
+
+			<div className="gallery-section gallery-section--throne">
 				<SectionHeader
 					icon={Crown}
 					titleKey="gallery.throneTitle"
@@ -109,28 +139,33 @@ export default function PhotoGallery() {
 
 				<motion.div
 					className="photo-grid photo-grid--throne"
-					variants={content}
+					variants={grid}
 					initial="hidden"
 					whileInView="visible"
-					viewport={{ once: true, margin: "-60px" }}
+					viewport={{ once: true, margin: "-48px" }}
 				>
-					{THRONE_PHOTOS.map((p, i) => (
-						<PhotoCard
+					{THRONE_PHOTOS.map((p) => (
+						<GalleryPhotoCard
 							key={p.name}
 							src={p.src}
-							label={p.label}
-							index={i}
-							reducedMotion={reducedMotion}
+							labelKey={p.label}
+							variants={photoV}
+							layout="throne"
 						/>
 					))}
 				</motion.div>
 			</div>
 
-			{/* 分隔线 */}
-			<div className="gallery-divider" aria-hidden />
+			<motion.div
+				className="gallery-divider"
+				variants={rail}
+				initial="hidden"
+				whileInView="visible"
+				viewport={{ once: true, margin: "-20px" }}
+				aria-hidden
+			/>
 
-			{/* ── 全身照 ── */}
-			<div className="gallery-section">
+			<div className="gallery-section gallery-section--fullbody">
 				<SectionHeader
 					icon={User}
 					titleKey="gallery.fullbodyTitle"
@@ -140,18 +175,18 @@ export default function PhotoGallery() {
 
 				<motion.div
 					className="photo-grid photo-grid--fullbody"
-					variants={content}
+					variants={grid}
 					initial="hidden"
 					whileInView="visible"
-					viewport={{ once: true, margin: "-60px" }}
+					viewport={{ once: true, margin: "-48px" }}
 				>
-					{FULLBODY_PHOTOS.map((p, i) => (
-						<PhotoCard
+					{FULLBODY_PHOTOS.map((p) => (
+						<GalleryPhotoCard
 							key={p.name}
 							src={p.src}
-							label={p.label}
-							index={i}
-							reducedMotion={reducedMotion}
+							labelKey={p.label}
+							variants={photoV}
+							layout="fullbody"
 						/>
 					))}
 				</motion.div>

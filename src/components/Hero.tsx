@@ -295,11 +295,19 @@ export default function Hero() {
 						}
 						whileTap={reducedMotion ? undefined : { scale: 0.9 }}
 						onClick={() => {
-							const gallery = document.querySelector('.gallery');
-							if (gallery) {
-								gallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							const galleryEl =
+								document.getElementById("gallery") ??
+								document.querySelector(".gallery");
+							if (galleryEl) {
+								galleryEl.scrollIntoView({
+									behavior: "smooth",
+									block: "start",
+								});
 							} else {
-								window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+								window.scrollTo({
+									top: window.innerHeight,
+									behavior: "smooth",
+								});
 							}
 						}}
 					>
