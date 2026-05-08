@@ -1,0 +1,74 @@
+@import "./variables.css";
+
+.site-footer {
+	position: relative;
+	z-index: 1;
+	padding: 64px 40px 48px;
+	border-top: 1px solid var(--border-color);
+	background: linear-gradient(
+		180deg,
+		transparent 0%,
+		rgba(6, 4, 10, 0.55) 100%
+	);
+}
+
+@media (max-width: 768px) {
+	.site-footer {
+		padding: 48px 20px 36px;
+	}
+}
+
+.site-footer-inner {
+	max-width: 800px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.footer-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 16px;
+}
+
+.footer-brand-icon {
+	color: var(--primary-color);
+	opacity: 0.72;
+}
+
+.footer-brand-text {
+	font-family: var(--font-chinese), var(--font-primary);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	color: var(--text-primary);
+}
+
+.footer-blurb {
+	font-family: var(--font-chinese), var(--font-primary);
+	font-size: 14px;
+	line-height: 1.85;
+	color: var(--text-muted);
+	max-width: 28rem;
+	margin: 0 auto 24px;
+}
+
+.footer-divider {
+	width: 48px;
+	height: 1px;
+	margin: 0 auto 20px;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		var(--border-color),
+		var(--border-strong),
+		var(--border-color),
+		transparent
+	);
+}
+
+.footer-copyright {
+	font-size: 12px;
+	letter-spacing: 0.1em;
+	color: rgba(236, 228, 248, 0.35);
+}

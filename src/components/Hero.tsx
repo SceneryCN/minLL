@@ -294,12 +294,14 @@ export default function Hero() {
 									}
 						}
 						whileTap={reducedMotion ? undefined : { scale: 0.9 }}
-						onClick={() =>
-							window.scrollTo({
-								top: document.documentElement.scrollHeight,
-								behavior: "smooth",
-							})
-						}
+						onClick={() => {
+							const gallery = document.querySelector('.gallery');
+							if (gallery) {
+								gallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							} else {
+								window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+							}
+						}}
 					>
 						<span className="scroll-indicator-label">{t("hero.scrollHint")}</span>
 						<span className="scroll-mouse" aria-hidden>

@@ -1,0 +1,275 @@
+@import "./variables.css";
+
+/* ── 画廊整体 ── */
+.gallery {
+	position: relative;
+	z-index: 1;
+	padding: 96px 40px 64px;
+}
+
+@media (max-width: 768px) {
+	.gallery {
+		padding: 64px 20px 40px;
+	}
+}
+
+.gallery-section {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+.gallery-section + .gallery-section {
+	margin-top: 96px;
+}
+
+@media (max-width: 768px) {
+	.gallery-section + .gallery-section {
+		margin-top: 64px;
+	}
+}
+
+/* ── 区块标题 ── */
+.gallery-section-header {
+	text-align: center;
+	margin-bottom: 56px;
+}
+
+@media (max-width: 768px) {
+	.gallery-section-header {
+		margin-bottom: 40px;
+	}
+}
+
+.gallery-section-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: var(--radius-md);
+	background: linear-gradient(
+		135deg,
+		rgba(212, 175, 55, 0.14),
+		rgba(125, 90, 130, 0.14)
+	);
+	border: 1px solid var(--border-color);
+	color: var(--primary-color);
+	margin-bottom: 18px;
+}
+
+.gallery-section-title {
+	font-family: var(--font-chinese), var(--font-primary);
+	font-size: clamp(1.65rem, 3.6vw, 2.4rem);
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	color: var(--text-primary);
+	margin-bottom: 12px;
+}
+
+.gallery-section-desc {
+	font-family: var(--font-chinese), var(--font-primary);
+	font-size: 15px;
+	line-height: 1.85;
+	color: var(--text-secondary);
+	max-width: 32rem;
+	margin: 0 auto;
+}
+
+/* ── 分隔线 ── */
+.gallery-divider {
+	max-width: 200px;
+	height: 1px;
+	margin: 80px auto;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		var(--border-color),
+		var(--border-strong),
+		var(--border-color),
+		transparent
+	);
+}
+
+@media (max-width: 768px) {
+	.gallery-divider {
+		margin: 56px auto;
+	}
+}
+
+/* ── 照片网格 ── */
+.photo-grid {
+	display: grid;
+	gap: 32px;
+	align-items: start;
+}
+
+.photo-grid--throne {
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.photo-grid--fullbody {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 40px;
+	flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+	.photo-grid {
+		gap: 24px;
+	}
+}
+
+@media (max-width: 768px) {
+	.photo-grid--throne,
+	.photo-grid--fullbody {
+		grid-template-columns: 1fr;
+		max-width: 420px;
+		margin: 0 auto;
+		gap: 32px;
+	}
+}
+
+/* ── 照片卡片 ── */
+.photo-card {
+	position: relative;
+}
+
+/* 全身照区域：卡片宽度贴合图片本身 */
+.photo-grid--fullbody .photo-card {
+	flex: 0 0 auto;
+	width: auto;
+}
+
+.photo-frame {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	background: linear-gradient(
+		145deg,
+		rgba(248, 232, 188, 0.55),
+		rgba(212, 175, 55, 0.28) 25%,
+		rgba(125, 90, 130, 0.38) 55%,
+		rgba(248, 232, 188, 0.22)
+	);
+	padding: 2px;
+	box-shadow:
+		var(--shadow-lg),
+		0 0 64px rgba(212, 175, 55, 0.08);
+	transition: box-shadow 0.55s var(--ease-smooth);
+}
+
+/* 全身照：边框宽度贴合图片 */
+.photo-grid--fullbody .photo-frame {
+	width: fit-content;
+	margin: 0 auto;
+}
+
+/* 全身照统一容器尺寸 */
+.photo-grid--fullbody .photo-card .photo-frame {
+	width: 230px;
+	height: 412px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	object-fit: cover;
+	overflow: hidden;
+}
+
+@media (max-width: 768px) {
+	.photo-grid--fullbody .photo-card .photo-frame {
+		width: 200px;
+		height: 400px;
+	}
+}
+
+.photo-card:hover .photo-frame {
+	box-shadow:
+		var(--shadow-xl),
+		0 0 96px rgba(212, 175, 55, 0.16);
+}
+
+/* 图片完整展示：不做任何裁剪 */
+.photo-img {
+	width: 100%;
+	height: auto;
+	max-height: min(78vh, 680px);
+	object-fit: contain;
+	border-radius: calc(var(--radius-lg) - 2px);
+	display: block;
+	transition: filter 0.7s var(--ease-smooth);
+	filter: brightness(0.92) contrast(1.02);
+}
+
+/* 全身照：在固定容器内等比缩放，完整展示 */
+.photo-grid--fullbody .photo-img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.photo-card:hover .photo-img {
+	filter: brightness(1.04) contrast(1.05);
+}
+
+/* 扫描线光泽 */
+.photo-shimmer {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	border-radius: calc(var(--radius-lg) - 2px);
+	background: linear-gradient(
+		105deg,
+		transparent 40%,
+		rgba(248, 232, 188, 0.06) 50%,
+		transparent 60%
+	);
+	background-size: 200% 100%;
+	animation: photoShimmer 5s ease-in-out infinite;
+}
+
+@keyframes photoShimmer {
+	0%,
+	100% {
+		background-position: 200% 0;
+	}
+	50% {
+		background-position: -200% 0;
+	}
+}
+
+/* ── 照片标签 ── */
+.photo-caption {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-top: 16px;
+	padding-left: 4px;
+}
+
+.photo-caption-line {
+	display: block;
+	width: 24px;
+	height: 1px;
+	background: linear-gradient(
+		90deg,
+		var(--primary-color),
+		transparent
+	);
+	opacity: 0.55;
+}
+
+.photo-caption-text {
+	font-family: var(--font-chinese), var(--font-primary);
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	color: var(--text-secondary);
+	transition: color 0.35s var(--ease-smooth);
+}
+
+.photo-card:hover .photo-caption-text {
+	color: var(--primary-color);
+}
